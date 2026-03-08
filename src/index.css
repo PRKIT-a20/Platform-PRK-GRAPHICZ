@@ -21,4 +21,10 @@
     animation: marquee 40s linear infinite;
   }
 }
-
+@layer base {
+  :root, html {
+    color-scheme: light only;
+  }
+  body {
+    background-color: #fcfcfc !important;
+    color: #000000 !important;
