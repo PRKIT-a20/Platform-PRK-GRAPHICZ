@@ -5,7 +5,24 @@ import { Mail, Phone, MapPin, Send, Quote, CheckCircle2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const testimonials = [
-// ... (keep testimonials as they are)
+  {
+    name: 'Marlène Gravenberch',
+    role: 'CEO,Leadership Refocused',
+    content: 'Very satisfied with PRK GRAPHICZ—great service, fast delivery, quality work, and clear communication.',
+    avatar: 'https://image2url.com/r2/default/images/1772563495250-a7302a89-6db4-4476-bbeb-f649e54ec0c3.png',
+  },
+  {
+    name: 'Esten Cohen',
+    role: 'CEO ,The Lyrical Office',
+    content: 'PRK Graphicz delivers! We from The Lyrical Office recommend them for excellent, affordable graphic design.',
+    avatar: 'https://image2url.com/r2/default/images/1772563717767-a04404d4-8c62-4fcf-af1b-7f7e542664bf.png',
+  },
+  {
+    name: 'Sade Lansdorf',
+    role: 'CEO, PUSH Forward',
+    content: 'Grateful for punctual, creative, and cooperative partnership. Excellent designs! They truly understand our vision.',
+    avatar: 'https://image2url.com/r2/default/images/1772563613566-55764184-525f-4ce7-bdd4-2fa916a8524b.png',
+  },
 ];
 
 const Contact = () => {
