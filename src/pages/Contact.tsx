@@ -210,7 +210,7 @@ const Contact = () => {
             
             <div className="relative overflow-hidden py-10">
               <div className="flex animate-marquee whitespace-nowrap gap-8">
-                {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
+                {[...testimonials, ...testimonials].map((testimonial, index) => (
                   <div 
                     key={`${testimonial.name}-${index}`}
                     className="inline-block w-[400px] p-8 bg-white rounded-3xl border border-black/5 shadow-sm whitespace-normal flex-shrink-0"

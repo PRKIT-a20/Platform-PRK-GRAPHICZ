@@ -17,7 +17,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[0.9] text-brand-primary font-display uppercase"
+          className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[0.9] text-brand-primary font-display uppercase"
         >
           Stop Designing <br />
           <span className="text-brand-secondary italic">Start Growing</span>

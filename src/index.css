@@ -11,6 +11,17 @@
   --color-brand-accent: #000000;
 }
 
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+}
+
 @layer base {
   :root {
     color-scheme: light only;
