@@ -40,11 +40,9 @@
 
 @layer base {
   :root {
-    color-scheme: light only;
+    color-scheme: light;
   }
   html, body {
     @apply bg-[#fcfcfc] text-brand-accent;
-    background-color: #fcfcfc !important;
-    color: #000000 !important;
   }
 }

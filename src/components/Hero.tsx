@@ -47,7 +47,7 @@ const Hero = () => {
           </Link>
           <Link
             to="/pricing"
-            className="w-fit px-10 py-4 bg-white border border-brand-primary/10 text-brand-primary rounded-full font-bold text-lg transition-all flex items-center justify-center min-w-[220px] hover:bg-black/5 hover:border-black/10"
+            className="w-fit px-10 py-4 bg-white border border-brand-primary/20 text-brand-primary rounded-full font-bold text-lg transition-all flex items-center justify-center min-w-[220px] hover:bg-brand-primary/5 hover:border-brand-primary"
           >
             View Pricing
           </Link>
