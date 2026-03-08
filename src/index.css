@@ -23,7 +23,7 @@
 }
 
 @layer base {
-  :root {
+  :root, html {
     color-scheme: light only;
   }
   body {
