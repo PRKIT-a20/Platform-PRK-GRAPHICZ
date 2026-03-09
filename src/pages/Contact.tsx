@@ -146,7 +146,7 @@ const Contact = () => {
                         type="text" 
                         value={formData.first_name}
                         onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                        className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
+                        className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
                         placeholder="John"
                       />
                     </div>
@@ -157,7 +157,7 @@ const Contact = () => {
                         type="text" 
                         value={formData.last_name}
                         onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                        className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
+                        className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
                         placeholder="Doe"
                       />
                     </div>
@@ -169,7 +169,7 @@ const Contact = () => {
                       type="email" 
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
+                      className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
                       placeholder="john@example.com"
                     />
                   </div>
@@ -180,7 +180,7 @@ const Contact = () => {
                       rows={4}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium resize-none"
+                      className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium resize-none"
                       placeholder="Tell us about your project..."
                     />
                   </div>

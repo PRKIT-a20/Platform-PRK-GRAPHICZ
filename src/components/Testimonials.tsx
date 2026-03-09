@@ -25,11 +25,11 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-24 px-6 bg-[#fcfcfc] dark:bg-[#0a0a0a]">
+    <section className="py-24 px-6 bg-[#fcfcfc]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 dark:text-white">Loved by startups</h2>
-          <p className="text-xl text-black/60 dark:text-white/60 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-[#1a1a1a]">Loved by startups</h2>
+          <p className="text-xl text-[#1a1a1a]/60 max-w-2xl mx-auto">
             Don't just take our word for it. Here's what our clients have to say about their experience.
           </p>
         </div>
@@ -42,11 +42,11 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-8 bg-white dark:bg-[#111111] rounded-3xl border border-black/5 dark:border-white/5 flex flex-col justify-between shadow-sm"
+              className="p-8 bg-white rounded-3xl border border-black/5 flex flex-col justify-between shadow-sm"
             >
               <div>
-                <Quote size={40} className="text-black/5 dark:text-white/5 mb-6" />
-                <p className="text-lg font-medium mb-8 leading-relaxed italic dark:text-white/90">"{testimonial.content}"</p>
+                <Quote size={40} className="text-black/5 mb-6" />
+                <p className="text-lg font-medium mb-8 leading-relaxed italic">"{testimonial.content}"</p>
               </div>
               <div className="flex items-center gap-4">
                 <img
@@ -56,8 +56,8 @@ const Testimonials = () => {
                   referrerPolicy="no-referrer"
                 />
                 <div>
-                  <h4 className="font-bold text-sm dark:text-white">{testimonial.name}</h4>
-                  <p className="text-xs text-black/40 dark:text-white/40 font-medium">{testimonial.role}</p>
+                  <h4 className="font-bold text-sm">{testimonial.name}</h4>
+                  <p className="text-xs text-black/40 font-medium">{testimonial.role}</p>
                 </div>
               </div>
             </motion.div>
