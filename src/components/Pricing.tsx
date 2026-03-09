@@ -47,11 +47,11 @@ const plans = [
 
 const Pricing = () => {
   return (
-    <section className="py-24 px-6 bg-white dark:bg-[#0a0a0a]" id="pricing">
+    <section className="py-24 px-6 bg-[#fcfcfc]" id="pricing">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-brand-primary dark:text-brand-secondary uppercase font-display">Pricing & Plans</h2>
-          <p className="text-xl text-black/80 dark:text-white/80 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-brand-primary uppercase font-display">Pricing & Plans</h2>
+          <p className="text-xl text-black/80 max-w-2xl mx-auto">
             Simple, transparent pricing for every stage of your growth.
           </p>
         </div>
@@ -67,7 +67,7 @@ const Pricing = () => {
               className={`relative p-8 rounded-[40px] border flex flex-col transition-all ${
                 plan.popular 
                   ? 'border-brand-primary bg-brand-primary text-brand-secondary shadow-2xl shadow-brand-primary/20 scale-105 z-10' 
-                  : 'border-black/5 dark:border-white/5 bg-white dark:bg-[#111111] text-black dark:text-white'
+                  : 'border-black/5 bg-white text-black'
               }`}
             >
               {plan.popular && (
@@ -78,7 +78,7 @@ const Pricing = () => {
               
               <div className="mb-8">
                 <h3 className="text-2xl font-bold uppercase font-display mb-2">{plan.name}</h3>
-                <p className={`text-sm font-medium ${plan.popular ? 'text-brand-secondary/80' : 'text-black/60 dark:text-white/60'}`}>
+                <p className={`text-sm font-medium ${plan.popular ? 'text-brand-secondary/80' : 'text-black/60'}`}>
                   {plan.description}
                 </p>
               </div>
@@ -114,7 +114,7 @@ const Pricing = () => {
         </div>
 
         <div className="mt-16 max-w-4xl mx-auto text-center">
-          <p className="text-sm text-black/50 dark:text-white/50 leading-relaxed font-medium italic">
+          <p className="text-sm text-black/50 leading-relaxed font-medium italic">
             <span className="font-bold uppercase tracking-wider not-italic mr-1">Disclaimer:</span>
             Our pricing is exclusively in United States Dollars (USD). When making payments from Suriname, your bank or Mopé will convert your Surinamese Dollars (SRD) to USD at their prevailing exchange rate. Please note that this exchange rate is flexible and may fluctuate, impacting the final SRD amount you are charged.
           </p>
