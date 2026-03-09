@@ -27,6 +27,9 @@ import {
   LayoutDashboard,
   Trash2
 } from 'lucide-react';
+import ReceiptUpload from '../components/ReceiptUpload';
+import InvoiceList from '../components/InvoiceList';
+import StatusTracker from '../components/StatusTracker';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
 
@@ -487,6 +490,14 @@ const Dashboard = () => {
                 </motion.div>
               ))
             )}
+          </div>
+        ) : activeTab === 'billing' ? (
+          <div className="space-y-8">
+            <ReceiptUpload onUploadSuccess={() => window.location.reload()} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <InvoiceList />
+              <StatusTracker />
+            </div>
           </div>
         ) : activeTab === 'settings' ? (
           <div className="max-w-2xl space-y-8">
