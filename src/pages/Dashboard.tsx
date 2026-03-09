@@ -50,7 +50,7 @@ const Dashboard = () => {
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'planner' | 'billing' | 'projects' | 'vault' | 'proofing' | 'strategy' | 'wiki' | 'roadmap' | 'referral' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'planner' | 'billing' | 'projects' | 'vault' | 'proofing' | 'strategy' | 'wiki' | 'roadmap' | 'settings'>('overview');
 
   useEffect(() => {
     if (user) {
@@ -213,14 +213,6 @@ const Dashboard = () => {
             <CreditCard size={18} />
             Billing/Receipts
           </button>
-          <button 
-            onClick={() => setActiveTab('referral')}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'referral' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
-          >
-            <Share2 size={18} />
-            Referral Hub
-          </button>
-
           <div className="pt-4 pb-2 px-4">
             <p className="text-[10px] font-bold uppercase tracking-widest text-black/20">Account</p>
           </div>
@@ -253,7 +245,6 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-8">
         <header className="flex items-center justify-between mb-12">
           <div>
             <h1 className="text-3xl font-bold tracking-tight mb-1">
@@ -368,19 +359,7 @@ const Dashboard = () => {
                 <p className="text-black/40 text-sm font-medium">Visual roadmap of the project lifecycle.</p>
               </button>
 
-              <button 
-                onClick={() => setActiveTab('referral')}
-                className="md:col-span-2 bg-brand-primary p-8 rounded-[2.5rem] hover:shadow-2xl hover:shadow-brand-primary/20 transition-all group text-left"
-              >
-                <div className="w-12 h-12 bg-white/10 text-brand-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Share2 size={24} />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-brand-secondary">Referral Hub</h3>
-                <p className="text-brand-secondary/60 text-sm font-medium">Incentives for bringing in new business.</p>
-              </button>
-            </div>
-
-            {/* Recent Requests Section */}
+              {/* Recent Requests Section */}
             <div>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Recent Requests</h2>

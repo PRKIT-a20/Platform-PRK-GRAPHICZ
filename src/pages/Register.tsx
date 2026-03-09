@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
 import { motion } from 'motion/react';
 import Logo from '../components/Logo';
+import AuthDivider from '../components/AuthDivider';
 import { Mail, Lock, ArrowRight, Loader2, User, Eye, EyeOff, ShieldCheck, ArrowLeft } from 'lucide-react';
 
 const Register = () => {
@@ -194,6 +195,135 @@ const Register = () => {
 
         {step === 'register' ? (
           <>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Full Name</label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
+                  <input
+                    type="text"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
+                    placeholder="John Doe"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Email Address</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
+                    placeholder="yourname@gmail.com"
+                  />
+                </div>
+                <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-black/20">
+                  Accepted: Gmail, Outlook, Hotmail, Yahoo
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-12 pr-12 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-black/20 hover:text-black/40 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+                {password && (
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">Strength: {strength.label}</span>
+                    </div>
+                    <div className="flex gap-1 h-1">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div 
+                          key={i}
+                          className={`flex-1 rounded-full transition-all duration-500 ${
+                            i <= strength.score ? strength.color : 'bg-black/5'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
+                      <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${password.length >= 8 ? 'text-green-500' : 'text-black/20'}`}>
+                        <div className={`w-1 h-1 rounded-full ${password.length >= 8 ? 'bg-green-500' : 'bg-black/20'}`} />
+                        8+ Characters
+                      </div>
+                      <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${/[A-Z]/.test(password) && /[a-z]/.test(password) ? 'text-green-500' : 'text-black/20'}`}>
+                        <div className={`w-1 h-1 rounded-full ${/[A-Z]/.test(password) && /[a-z]/.test(password) ? 'bg-green-500' : 'bg-black/20'}`} />
+                        Mixed Case
+                      </div>
+                      <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${/[0-9]/.test(password) ? 'text-green-500' : 'text-black/20'}`}>
+                        <div className={`w-1 h-1 rounded-full ${/[0-9]/.test(password) ? 'bg-green-500' : 'bg-black/20'}`} />
+                        Numbers
+                      </div>
+                      <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${/[^A-Za-z0-9]/.test(password) ? 'text-green-500' : 'text-black/20'}`}>
+                        <div className={`w-1 h-1 rounded-full ${/[^A-Za-z0-9]/.test(password) ? 'bg-green-500' : 'bg-black/20'}`} />
+                        Special Char
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Confirm Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full pl-12 pr-12 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-black/20 hover:text-black/40 transition-colors"
+                  >
+                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 bg-brand-primary text-brand-secondary rounded-2xl font-bold text-lg hover:bg-brand-secondary hover:text-brand-primary transition-all flex items-center justify-center gap-2 shadow-xl shadow-brand-primary/10 disabled:opacity-50"
+              >
+                {loading ? <Loader2 className="animate-spin" /> : (
+                  <>
+                    Create Account
+                    <ArrowRight size={20} />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <AuthDivider />
+
             <div className="mb-6">
               <button
                 type="button"
@@ -219,145 +349,9 @@ const Register = () => {
                     fill="#EA4335"
                   />
                 </svg>
-                Sign up with Google
+                Continue with Google
               </button>
             </div>
-
-            <div className="relative mb-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-black/10"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-black/40 font-bold uppercase tracking-widest text-[10px]">Or continue with email</span>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Full Name</label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
-                <input
-                  type="text"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
-                  placeholder="John Doe"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
-                  placeholder="yourname@gmail.com"
-                />
-              </div>
-              <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-black/20">
-                Accepted: Gmail, Outlook, Hotmail, Yahoo
-              </p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-12 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-black/20 hover:text-black/40 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {password && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">Strength: {strength.label}</span>
-                  </div>
-                  <div className="flex gap-1 h-1">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div 
-                        key={i}
-                        className={`flex-1 rounded-full transition-all duration-500 ${
-                          i <= strength.score ? strength.color : 'bg-black/5'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
-                    <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${password.length >= 8 ? 'text-green-500' : 'text-black/20'}`}>
-                      <div className={`w-1 h-1 rounded-full ${password.length >= 8 ? 'bg-green-500' : 'bg-black/20'}`} />
-                      8+ Characters
-                    </div>
-                    <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${/[A-Z]/.test(password) && /[a-z]/.test(password) ? 'text-green-500' : 'text-black/20'}`}>
-                      <div className={`w-1 h-1 rounded-full ${/[A-Z]/.test(password) && /[a-z]/.test(password) ? 'bg-green-500' : 'bg-black/20'}`} />
-                      Mixed Case
-                    </div>
-                    <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${/[0-9]/.test(password) ? 'text-green-500' : 'text-black/20'}`}>
-                      <div className={`w-1 h-1 rounded-full ${/[0-9]/.test(password) ? 'bg-green-500' : 'bg-black/20'}`} />
-                      Numbers
-                    </div>
-                    <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${/[^A-Za-z0-9]/.test(password) ? 'text-green-500' : 'text-black/20'}`}>
-                      <div className={`w-1 h-1 rounded-full ${/[^A-Za-z0-9]/.test(password) ? 'bg-green-500' : 'bg-black/20'}`} />
-                      Special Char
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Confirm Password</label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={20} />
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-12 pr-12 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-black/20 hover:text-black/40 transition-colors"
-                >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-4 bg-brand-primary text-brand-secondary rounded-2xl font-bold text-lg hover:bg-brand-secondary hover:text-brand-primary transition-all flex items-center justify-center gap-2 shadow-xl shadow-brand-primary/10 disabled:opacity-50"
-            >
-              {loading ? <Loader2 className="animate-spin" /> : (
-                <>
-                  Create Account
-                  <ArrowRight size={20} />
-                </>
-              )}
-            </button>
-          </form>
           </>
         ) : (
           <div className="space-y-6">
