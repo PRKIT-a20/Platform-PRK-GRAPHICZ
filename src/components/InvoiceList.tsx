@@ -10,20 +10,18 @@ interface Invoice {
   amount: number;
   status: 'unpaid' | 'paid';
   due_date: string;
+  pdf_url?: string;
 }
 
 export default function InvoiceList() {
   const { user } = useAuth();
-  const [invoices, setInvoices] = useState<Invoice[]>([
-    { id: 1, description: 'Logo Design', amount: 500, status: 'paid', due_date: '2026-03-01' },
-    { id: 2, description: 'Website Redesign', amount: 1200, status: 'unpaid', due_date: '2026-03-15' },
-  ]);
-  const [loading, setLoading] = useState(false);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // if (user) {
-    //   fetchInvoices();
-    // }
+    if (user) {
+      fetchInvoices();
+    }
   }, [user]);
 
   const fetchInvoices = async () => {
@@ -40,6 +38,14 @@ export default function InvoiceList() {
       console.error('Failed to fetch invoices:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownload = (invoice: Invoice) => {
+    if (invoice.pdf_url) {
+      window.open(invoice.pdf_url, '_blank');
+    } else {
+      alert('PDF not available for this invoice.');
     }
   };
 
@@ -71,7 +77,10 @@ export default function InvoiceList() {
                   </span>
                 </td>
                 <td className="py-4">
-                  <button className="flex items-center gap-2 text-brand-primary font-bold text-sm hover:underline">
+                  <button 
+                    onClick={() => handleDownload(invoice)}
+                    className="flex items-center gap-2 text-brand-primary font-bold text-sm hover:underline"
+                  >
                     <Download size={16} /> Download
                   </button>
                 </td>

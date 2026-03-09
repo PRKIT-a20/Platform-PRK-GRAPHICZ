@@ -13,16 +13,13 @@ interface Receipt {
 
 export default function StatusTracker() {
   const { user } = useAuth();
-  const [receipts, setReceipts] = useState<Receipt[]>([
-    { id: 1, amount: 500, status: 'verified', created_at: '2026-03-01' },
-    { id: 2, amount: 1200, status: 'pending', created_at: '2026-03-05' },
-  ]);
-  const [loading, setLoading] = useState(false);
+  const [receipts, setReceipts] = useState<Receipt[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // if (user) {
-    //   fetchReceipts();
-    // }
+    if (user) {
+      fetchReceipts();
+    }
   }, [user]);
 
   const fetchReceipts = async () => {
