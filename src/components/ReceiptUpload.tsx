@@ -50,9 +50,9 @@ export default function ReceiptUpload({ onUploadSuccess }: ReceiptUploadProps) {
       onUploadSuccess();
       setFile(null);
       setAmount('');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading receipt:', error);
-      alert('Failed to upload receipt.');
+      alert(`Failed to upload receipt: ${error.message || 'Unknown error'}`);
     } finally {
       setUploading(false);
     }
