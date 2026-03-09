@@ -23,10 +23,8 @@
 }
 
 @layer base {
-  :root, html {
+  :root, html, body, #root {
     color-scheme: light only;
-  }
-  body {
     background-color: #fcfcfc !important;
     color: #000000 !important;
   }
