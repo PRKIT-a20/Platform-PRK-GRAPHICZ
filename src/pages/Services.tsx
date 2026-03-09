@@ -34,7 +34,7 @@ const Services = () => {
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-brand-primary dark:text-brand-secondary"
+              className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-brand-primary"
             >
               Our Services
             </motion.h1>
@@ -42,7 +42,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-xl text-black/80 dark:text-white/80 max-w-2xl mx-auto"
+              className="text-xl text-black/80 max-w-2xl mx-auto"
             >
               Comprehensive design solutions tailored for startups. We handle the creative, so you can focus on the growth.
             </motion.p>
@@ -56,13 +56,13 @@ const Services = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="p-8 rounded-3xl bg-white dark:bg-[#111111] border border-black/5 dark:border-white/5 hover:border-black/10 dark:hover:border-white/10 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-white/5 transition-all group"
+                className="p-8 rounded-3xl bg-white border border-black/5 hover:border-black/10 hover:shadow-xl hover:shadow-black/5 transition-all group"
               >
                 <div className={`mb-8 p-4 ${service.color} rounded-2xl w-fit group-hover:scale-110 transition-transform`}>
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-4 dark:text-white">{service.title}</h3>
-                <p className="text-black/70 dark:text-white/70 leading-relaxed">{service.description}</p>
+                <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
+                <p className="text-black/70 leading-relaxed">{service.description}</p>
               </motion.div>
             ))}
           </div>

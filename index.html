@@ -1,18 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="bg-white">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light only">
     <style>
       html, body {
-        background-color: #fcfcfc !important;
-        color: #000000 !important;
+        background-color: #ffffff;
+        color: #000000;
       }
     </style>
-    <title>PRK GRAPHICZ</title>
+    <title>PRK GRAPHICZ - LIGHT MODE</title>
+    <script>
+      // Force light mode on page load
+      (function() {
+        const html = document.documentElement;
+        html.classList.remove('dark');
+        html.setAttribute('data-theme', 'light');
+      })();
+    </script>
   </head>
-  <body>
+  <body class="bg-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
