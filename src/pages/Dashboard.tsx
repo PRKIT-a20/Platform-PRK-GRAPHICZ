@@ -30,7 +30,6 @@ import {
   X
 } from 'lucide-react';
 import InvoiceList from '../components/InvoiceList';
-import StatusTracker from '../components/StatusTracker';
 import ClientInvoiceUpload from '../components/ClientInvoiceUpload';
 import ClientUploadedInvoicesList from '../components/ClientUploadedInvoicesList';
 import { motion, AnimatePresence } from 'motion/react';
@@ -514,9 +513,8 @@ const Dashboard = () => {
               <ClientInvoiceUpload onUploadSuccess={() => setInvoiceRefresh(prev => prev + 1)} />
               <ClientUploadedInvoicesList refreshTrigger={invoiceRefresh} />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 gap-8">
               <InvoiceList />
-              <StatusTracker />
             </div>
           </div>
         ) : activeTab === 'settings' ? (
