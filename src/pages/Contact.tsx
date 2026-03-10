@@ -30,6 +30,7 @@ const Contact = () => {
     first_name: '',
     last_name: '',
     email: '',
+    phone: '',
     message: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -51,6 +52,7 @@ const Contact = () => {
           first_name: formData.first_name,
           last_name: formData.last_name,
           email: formData.email,
+          phone: formData.phone,
           message: formData.message
         })
       });
@@ -60,7 +62,7 @@ const Contact = () => {
       }
 
       setStatus('success');
-      setFormData({ first_name: '', last_name: '', email: '', message: '' });
+      setFormData({ first_name: '', last_name: '', email: '', phone: '', message: '' });
     } catch (error: any) {
       setStatus('error');
       setErrorMessage(error.message || 'Something went wrong. Please try again.');
@@ -143,7 +145,7 @@ const Contact = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
+                    <div className="flex flex-col justify-end">
                       <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">First Name</label>
                       <input 
                         required
@@ -154,7 +156,7 @@ const Contact = () => {
                         placeholder="John"
                       />
                     </div>
-                    <div>
+                    <div className="flex flex-col justify-end">
                       <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Last Name</label>
                       <input 
                         required
@@ -166,18 +168,36 @@ const Contact = () => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Email Address</label>
-                    <input 
-                      required
-                      type="email" 
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
-                      placeholder="john@example.com"
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col justify-end">
+                      <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Email Address</label>
+                      <input 
+                        required
+                        type="email" 
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-end">
+                      <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Phone</label>
+                      <input 
+                        required
+                        type="tel" 
+                        value={formData.phone}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (/^[\d+()\-\s]*$/.test(val)) {
+                            setFormData({ ...formData, phone: val });
+                          }
+                        }}
+                        className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
+                        placeholder="+1 (555) 000-0000"
+                      />
+                    </div>
                   </div>
-                  <div>
+                  <div className="flex flex-col justify-end">
                     <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Message</label>
                     <textarea 
                       required
