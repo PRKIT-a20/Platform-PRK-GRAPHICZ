@@ -245,6 +245,7 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
+      <main className="flex-1 max-w-7xl mx-auto px-6 py-12 w-full">
         <header className="flex items-center justify-between mb-12">
           <div>
             <h1 className="text-3xl font-bold tracking-tight mb-1">
@@ -358,6 +359,7 @@ const Dashboard = () => {
                 <h3 className="text-xl font-bold mb-2">Process Tracker</h3>
                 <p className="text-black/40 text-sm font-medium">Visual roadmap of the project lifecycle.</p>
               </button>
+            </div>
 
               {/* Recent Requests Section */}
             <div>
