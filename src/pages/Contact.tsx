@@ -201,6 +201,50 @@ const Contact = () => {
             </motion.div>
           </div>
 
+          {/* Scrolling Reviews Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mt-32 mb-16"
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-primary">What our clients say</h2>
+              <div className="w-20 h-1 bg-brand-secondary mx-auto rounded-full" />
+            </div>
+            
+            <div className="relative overflow-hidden py-10">
+              <div className="flex animate-marquee whitespace-nowrap gap-6 md:gap-8 hover:[animation-play-state:paused]">
+                {[...testimonials, ...testimonials].map((testimonial, index) => (
+                  <div 
+                    key={`${testimonial.name}-${index}`}
+                    className="inline-block w-[85vw] max-w-[320px] md:max-w-[400px] p-6 md:p-8 bg-white rounded-3xl border border-black/5 shadow-sm whitespace-normal flex-shrink-0"
+                  >
+                    <Quote size={32} className="text-brand-primary/20 mb-6" />
+                    <p className="text-base md:text-lg font-medium mb-8 leading-relaxed italic text-black/80">"{testimonial.content}"</p>
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={testimonial.avatar}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-brand-primary/10"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div>
+                        <h4 className="font-bold text-sm text-brand-primary">{testimonial.name}</h4>
+                        <p className="text-xs text-black/60 font-medium">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Gradient overlays for smooth fade */}
+              <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#fcfcfc] to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#fcfcfc] to-transparent z-10 pointer-events-none" />
+            </div>
+          </motion.div>
+
           {/* Our Core Values Section */}
           <div className="mt-32 mb-16">
             <div className="text-center mb-16">
@@ -235,44 +279,6 @@ const Contact = () => {
                   <h3 className="font-bold text-lg text-brand-primary">{value.title}</h3>
                 </motion.div>
               ))}
-            </div>
-          </div>
-
-          {/* Scrolling Reviews Section */}
-          <div className="mt-32">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">What our clients say</h2>
-              <div className="w-20 h-1 bg-brand-secondary mx-auto rounded-full" />
-            </div>
-            
-            <div className="relative overflow-hidden py-10">
-              <div className="flex animate-marquee whitespace-nowrap gap-8">
-                {[...testimonials, ...testimonials].map((testimonial, index) => (
-                  <div 
-                    key={`${testimonial.name}-${index}`}
-                    className="inline-block w-[400px] p-8 bg-white rounded-3xl border border-black/5 shadow-sm whitespace-normal flex-shrink-0"
-                  >
-                    <Quote size={32} className="text-brand-primary/10 mb-6" />
-                    <p className="text-lg font-medium mb-8 leading-relaxed italic">"{testimonial.content}"</p>
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div>
-                        <h4 className="font-bold text-sm">{testimonial.name}</h4>
-                        <p className="text-xs text-black/40 font-medium">{testimonial.role}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Gradient overlays for smooth fade */}
-              <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#fcfcfc] to-transparent z-10" />
-              <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#fcfcfc] to-transparent z-10" />
             </div>
           </div>
         </div>
