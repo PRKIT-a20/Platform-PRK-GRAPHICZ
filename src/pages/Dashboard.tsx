@@ -29,7 +29,6 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import ReceiptUpload from '../components/ReceiptUpload';
 import InvoiceList from '../components/InvoiceList';
 import StatusTracker from '../components/StatusTracker';
 import ClientInvoiceUpload from '../components/ClientInvoiceUpload';
@@ -516,10 +515,7 @@ const Dashboard = () => {
               <ClientUploadedInvoicesList refreshTrigger={invoiceRefresh} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <ReceiptUpload onUploadSuccess={() => window.location.reload()} />
               <InvoiceList />
-            </div>
-            <div className="grid grid-cols-1 gap-8">
               <StatusTracker />
             </div>
           </div>
