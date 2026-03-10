@@ -150,6 +150,7 @@ const Contact = () => {
                       <input 
                         required
                         type="text" 
+                        name="first_name"
                         value={formData.first_name}
                         onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                         className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
@@ -161,6 +162,7 @@ const Contact = () => {
                       <input 
                         required
                         type="text" 
+                        name="last_name"
                         value={formData.last_name}
                         onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                         className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
@@ -174,6 +176,7 @@ const Contact = () => {
                       <input 
                         required
                         type="email" 
+                        name="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full px-4 py-4 bg-white border border-black/10 rounded-2xl focus:border-brand-primary/20 focus:bg-white transition-all outline-none font-medium"
@@ -185,6 +188,7 @@ const Contact = () => {
                       <input 
                         required
                         type="tel" 
+                        name="phone"
                         value={formData.phone}
                         onChange={(e) => {
                           const val = e.target.value;
@@ -201,6 +205,7 @@ const Contact = () => {
                     <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Message</label>
                     <textarea 
                       required
+                      name="message"
                       rows={4}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
