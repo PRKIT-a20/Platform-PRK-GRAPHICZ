@@ -70,15 +70,18 @@ const Services = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-24 px-6 bg-brand-primary text-brand-secondary">
+      <section className="py-24 px-6 bg-brand-primary text-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div>
               <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8">How it works</h2>
-              <p className="text-xl text-white mb-12">
+              <p className="text-xl text-white/90 mb-12">
                 Our streamlined process ensures you get high-quality designs without the headache of managing freelancers.
               </p>
-              <div className="space-y-12">
+              <div className="space-y-12 relative">
+                {/* Connecting Line */}
+                <div className="absolute left-[11px] top-8 bottom-8 w-[2px] bg-white/20" />
+                
                 {[
                   { 
                     step: '01', 
@@ -97,13 +100,16 @@ const Services = () => {
                     desc: 'Your custom designs will be delivered based on your personalized Content Planner. You can track progress, download files, and manage your schedule directly through your Client Dashboard.' 
                   },
                 ].map((item) => (
-                  <div key={item.step} className="flex gap-6">
-                    <span className="text-2xl font-bold text-brand-secondary/20 font-mono">{item.step}</span>
+                  <div key={item.step} className="flex gap-8 relative z-10">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-6 h-6 rounded-full bg-white border-4 border-brand-primary z-10 relative mt-1" />
+                      <span className="absolute -left-12 top-0 text-2xl font-bold text-white/40 font-mono">{item.step}</span>
+                    </div>
                     <div>
-                      <h4 className="text-xl font-bold mb-3">{item.title}</h4>
-                      <p className="text-brand-secondary/70 leading-relaxed mb-2">{item.desc}</p>
+                      <h4 className="text-xl font-bold mb-3 text-white">{item.title}</h4>
+                      <p className="text-white/80 leading-relaxed mb-2">{item.desc}</p>
                       {item.note && (
-                        <p className="text-brand-secondary/40 text-sm italic">{item.note}</p>
+                        <p className="text-white/60 text-sm italic">{item.note}</p>
                       )}
                     </div>
                   </div>
@@ -111,11 +117,11 @@ const Services = () => {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-brand-secondary/5 rounded-3xl border border-brand-secondary/10 flex items-center justify-center overflow-hidden">
-                <div className="w-64 h-64 bg-brand-secondary/20 blur-[100px] absolute" />
-                <div className="relative z-10 text-center p-12 text-brand-secondary">
-                  <h3 className="text-3xl font-bold mb-4 italic font-serif">"Stop Designing, Start Growing"</h3>
-                  <p className="text-brand-secondary/40">Focus on your business, we'll handle the rest.</p>
+              <div className="aspect-square bg-white/5 rounded-3xl border border-white/10 flex items-center justify-center overflow-hidden">
+                <div className="w-64 h-64 bg-white/10 blur-[100px] absolute" />
+                <div className="relative z-10 text-center p-12 text-white">
+                  <h3 className="text-3xl font-bold mb-6 font-display leading-tight">"Growth is never by mere chance; it is the result of forces working together."</h3>
+                  <p className="text-white/60 font-medium">— James Cash Penney</p>
                 </div>
               </div>
             </div>
