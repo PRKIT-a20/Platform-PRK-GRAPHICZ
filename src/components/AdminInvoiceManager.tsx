@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { Download, Loader2, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Download, Loader2, CheckCircle, XCircle, Clock, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface ClientInvoice {
@@ -74,6 +74,40 @@ export default function AdminInvoiceManager() {
     }
   };
 
+  const handleDelete = async (id: string, fileUrl: string) => {
+    if (!window.confirm('Are you sure you want to delete this invoice? This action cannot be undone.')) {
+      return;
+    }
+
+    setUpdating(id);
+    try {
+      // 1. Delete from storage
+      const { error: storageError } = await supabase.storage
+        .from('invoices')
+        .remove([fileUrl]);
+
+      if (storageError) {
+        console.error('Error deleting file from storage:', storageError);
+      }
+
+      // 2. Delete from database
+      const { error: dbError } = await supabase
+        .from('client_invoices')
+        .delete()
+        .eq('id', id);
+
+      if (dbError) throw dbError;
+
+      // 3. Update state
+      setInvoices(invoices.filter(inv => inv.id !== id));
+    } catch (error: any) {
+      console.error('Error deleting invoice:', error);
+      alert(`Failed to delete invoice: ${error?.message || 'Unknown error'}`);
+    } finally {
+      setUpdating(null);
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Pending': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
@@ -122,12 +156,22 @@ export default function AdminInvoiceManager() {
                   </select>
                 </td>
                 <td className="py-4 text-right">
-                  <button 
-                    onClick={() => handleDownload(invoice.file_url)}
-                    className="inline-flex items-center gap-2 text-brand-primary font-bold text-sm hover:underline"
-                  >
-                    <Download size={16} /> Download
-                  </button>
+                  <div className="flex items-center justify-end gap-3">
+                    <button 
+                      onClick={() => handleDownload(invoice.file_url)}
+                      className="inline-flex items-center gap-1 text-brand-primary font-bold text-sm hover:underline"
+                    >
+                      <Download size={16} /> Download
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(invoice.id, invoice.file_url)}
+                      disabled={updating === invoice.id}
+                      className="inline-flex items-center gap-1 text-red-500 font-bold text-sm hover:underline disabled:opacity-50"
+                      title="Delete Invoice"
+                    >
+                      <Trash2 size={16} /> Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

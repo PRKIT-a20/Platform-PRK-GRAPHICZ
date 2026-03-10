@@ -3,7 +3,11 @@ import { Upload, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 
-export default function ClientInvoiceUpload() {
+interface ClientInvoiceUploadProps {
+  onUploadSuccess?: () => void;
+}
+
+export default function ClientInvoiceUpload({ onUploadSuccess }: ClientInvoiceUploadProps) {
   const { user } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [amount, setAmount] = useState('');
@@ -11,7 +15,13 @@ export default function ClientInvoiceUpload() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      if (!selectedFile.name.toLowerCase().endsWith('.pdf')) {
+        alert('Please upload a PDF file only.');
+        e.target.value = '';
+        return;
+      }
+      setFile(selectedFile);
     }
   };
 
@@ -51,6 +61,10 @@ export default function ClientInvoiceUpload() {
       const fileInput = document.getElementById('invoice-upload') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
       
+      if (onUploadSuccess) {
+        onUploadSuccess();
+      }
+      
     } catch (error: any) {
       console.error('Error uploading invoice:', error);
       alert(`Failed to upload invoice: ${error.message || 'Unknown error'}`);
@@ -65,19 +79,19 @@ export default function ClientInvoiceUpload() {
       
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Invoice File (PDF/Image)</label>
+          <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Invoice File (PDF Only)</label>
           <div className="border-2 border-dashed border-black/10 rounded-2xl p-6 text-center hover:border-brand-primary/50 transition-colors relative">
             <input 
               type="file" 
               id="invoice-upload"
               onChange={handleFileChange}
-              accept=".pdf,image/*"
+              accept=".pdf,application/pdf"
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             />
             <div className="flex flex-col items-center justify-center gap-2">
               <Upload className="text-brand-primary" size={24} />
               <span className="text-black/60 font-medium">
-                {file ? file.name : 'Click or drag file to upload'}
+                {file ? file.name : 'Click or drag PDF file to upload'}
               </span>
             </div>
           </div>

@@ -14,8 +14,19 @@ export default function ReceiptUpload({ onUploadSuccess }: ReceiptUploadProps) {
   const [amount, setAmount] = useState('500');
   const [file, setFile] = useState<File | null>(null);
 
-  const onDrop = (acceptedFiles: File[]) => {
-    setFile(acceptedFiles[0]);
+  const onDrop = (acceptedFiles: File[], rejectedFiles: any[]) => {
+    if (rejectedFiles && rejectedFiles.length > 0) {
+      alert('Please upload a valid PDF file only.');
+      return;
+    }
+    if (acceptedFiles && acceptedFiles.length > 0) {
+      const selectedFile = acceptedFiles[0];
+      if (!selectedFile.name.toLowerCase().endsWith('.pdf')) {
+        alert('Please upload a PDF file only.');
+        return;
+      }
+      setFile(selectedFile);
+    }
   };
 
   const handleUpload = async () => {

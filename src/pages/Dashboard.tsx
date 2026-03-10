@@ -33,6 +33,7 @@ import ReceiptUpload from '../components/ReceiptUpload';
 import InvoiceList from '../components/InvoiceList';
 import StatusTracker from '../components/StatusTracker';
 import ClientInvoiceUpload from '../components/ClientInvoiceUpload';
+import ClientUploadedInvoicesList from '../components/ClientUploadedInvoicesList';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
 
@@ -54,6 +55,7 @@ const Dashboard = () => {
   const [newDescription, setNewDescription] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [invoiceRefresh, setInvoiceRefresh] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'planner' | 'billing' | 'projects' | 'vault' | 'proofing' | 'strategy' | 'wiki' | 'roadmap' | 'settings'>('overview');
 
   useEffect(() => {
@@ -510,11 +512,14 @@ const Dashboard = () => {
         ) : activeTab === 'billing' ? (
           <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <ClientInvoiceUpload />
-              <ReceiptUpload onUploadSuccess={() => window.location.reload()} />
+              <ClientInvoiceUpload onUploadSuccess={() => setInvoiceRefresh(prev => prev + 1)} />
+              <ClientUploadedInvoicesList refreshTrigger={invoiceRefresh} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <ReceiptUpload onUploadSuccess={() => window.location.reload()} />
               <InvoiceList />
+            </div>
+            <div className="grid grid-cols-1 gap-8">
               <StatusTracker />
             </div>
           </div>
