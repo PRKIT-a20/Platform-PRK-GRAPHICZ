@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Send, Quote, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Quote, CheckCircle2, Award, Zap, Smile, ThumbsUp, Target, TrendingUp, MessageCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const testimonials = [
@@ -199,6 +199,43 @@ const Contact = () => {
                 </form>
               )}
             </motion.div>
+          </div>
+
+          {/* Our Core Values Section */}
+          <div className="mt-32 mb-16">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-primary">Our Core Values</h2>
+              <div className="w-20 h-1 bg-brand-secondary mx-auto rounded-full mb-6" />
+              <p className="text-black/60 max-w-2xl mx-auto text-lg">
+                These principles guide everything we do, from our first conversation to the final delivery.
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-6">
+              {[
+                { title: 'Quality', icon: <Award size={48} /> },
+                { title: 'Time-Saving', icon: <Zap size={48} /> },
+                { title: 'Happiness', icon: <Smile size={48} /> },
+                { title: 'Satisfaction', icon: <ThumbsUp size={48} /> },
+                { title: 'Result Driven', icon: <Target size={48} /> },
+                { title: 'Empowerment', icon: <TrendingUp size={48} /> },
+                { title: 'Seamless Communication', icon: <MessageCircle size={48} /> },
+              ].map((value, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="w-full sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] max-w-[280px] bg-white p-6 lg:p-8 rounded-3xl border border-black/5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center"
+                >
+                  <div className="mb-6 text-brand-primary group-hover:scale-110 transition-transform duration-300">
+                    {value.icon}
+                  </div>
+                  <h3 className="font-bold text-lg text-brand-primary">{value.title}</h3>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           {/* Scrolling Reviews Section */}
