@@ -25,11 +25,14 @@ import {
   Map,
   Share2,
   LayoutDashboard,
-  Trash2
+  Trash2,
+  Menu,
+  X
 } from 'lucide-react';
 import ReceiptUpload from '../components/ReceiptUpload';
 import InvoiceList from '../components/InvoiceList';
 import StatusTracker from '../components/StatusTracker';
+import ClientInvoiceUpload from '../components/ClientInvoiceUpload';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
 
@@ -50,6 +53,7 @@ const Dashboard = () => {
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'planner' | 'billing' | 'projects' | 'vault' | 'proofing' | 'strategy' | 'wiki' | 'roadmap' | 'settings'>('overview');
 
   useEffect(() => {
@@ -132,82 +136,105 @@ const Dashboard = () => {
     }
   };
 
+  const handleTabClick = (tab: any) => {
+    setActiveTab(tab);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex">
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-black/5 flex flex-col hidden md:flex">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-black/5 flex-col transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0 flex' : '-translate-x-full md:flex'}`}>
         <div className="p-6 border-b border-black/5 flex items-center justify-between">
           <Logo />
-          {user?.role === 'admin' && (
-            <span className="px-2 py-1 bg-black/5 text-black/40 text-[8px] font-black uppercase tracking-tighter rounded-md">Admin Mode</span>
-          )}
+          <div className="flex items-center gap-2">
+            {user?.role === 'admin' && (
+              <span className="px-2 py-1 bg-black/5 text-black/40 text-[8px] font-black uppercase tracking-tighter rounded-md">Admin Mode</span>
+            )}
+            <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 text-black/40 hover:text-black">
+              <X size={20} />
+            </button>
+          </div>
         </div>
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto custom-scrollbar">
           <button 
-            onClick={() => setActiveTab('overview')}
+            onClick={() => handleTabClick('overview')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'overview' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <LayoutDashboard size={18} />
             Overview
           </button>
           <button 
-            onClick={() => setActiveTab('requests')}
+            onClick={() => handleTabClick('requests')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'requests' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <FileText size={18} />
             Request Panel
           </button>
           <button 
-            onClick={() => setActiveTab('projects')}
+            onClick={() => handleTabClick('projects')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'projects' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <Briefcase size={18} />
             Projects Panel
           </button>
           <button 
-            onClick={() => setActiveTab('planner')}
+            onClick={() => handleTabClick('planner')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'planner' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <Calendar size={18} />
             Content Planner
           </button>
           <button 
-            onClick={() => setActiveTab('vault')}
+            onClick={() => handleTabClick('vault')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'vault' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <Shield size={18} />
             Brand Vault
           </button>
           <button 
-            onClick={() => setActiveTab('proofing')}
+            onClick={() => handleTabClick('proofing')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'proofing' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <ImageIcon size={18} />
             Proofing Gallery
           </button>
           <button 
-            onClick={() => setActiveTab('strategy')}
+            onClick={() => handleTabClick('strategy')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'strategy' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <Target size={18} />
             Strategy Board
           </button>
           <button 
-            onClick={() => setActiveTab('wiki')}
+            onClick={() => handleTabClick('wiki')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'wiki' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <BookOpen size={18} />
             Resource Wiki
           </button>
           <button 
-            onClick={() => setActiveTab('roadmap')}
+            onClick={() => handleTabClick('roadmap')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'roadmap' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <Map size={18} />
             Process Tracker
           </button>
           <button 
-            onClick={() => setActiveTab('billing')}
+            onClick={() => handleTabClick('billing')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'billing' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <CreditCard size={18} />
@@ -226,7 +253,7 @@ const Dashboard = () => {
             </Link>
           )}
           <button 
-            onClick={() => setActiveTab('settings')}
+            onClick={() => handleTabClick('settings')}
             className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'settings' ? 'bg-brand-primary text-brand-secondary' : 'text-black/40 hover:bg-black/5'}`}
           >
             <Settings size={18} />
@@ -245,19 +272,27 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl mx-auto px-6 py-12 w-full">
-        <header className="flex items-center justify-between mb-12">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight mb-1">
-              {activeTab === 'overview' ? `Welcome, ${user?.email.split('@')[0]}` : activeTab.charAt(0).toUpperCase() + activeTab.slice(1).replace(/([A-Z])/g, ' $1')}
-            </h1>
-            <p className="text-black/40 font-medium">
-              {activeTab === 'overview' ? 'Manage your design requests and assets' : `Access your ${activeTab} tools and information`}
-            </p>
+      <main className="flex-1 max-w-7xl mx-auto px-6 py-12 w-full overflow-x-hidden">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 bg-white rounded-xl border border-black/5 text-black/60 hover:text-black"
+            >
+              <Menu size={24} />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight mb-1">
+                {activeTab === 'overview' ? `Welcome, ${user?.email.split('@')[0]}` : activeTab.charAt(0).toUpperCase() + activeTab.slice(1).replace(/([A-Z])/g, ' $1')}
+              </h1>
+              <p className="text-black/40 font-medium">
+                {activeTab === 'overview' ? 'Manage your design requests and assets' : `Access your ${activeTab} tools and information`}
+              </p>
+            </div>
           </div>
           <button 
             onClick={() => setShowNewRequest(true)}
-            className="flex items-center gap-2 bg-brand-primary text-brand-secondary px-6 py-3 rounded-full font-bold text-sm hover:bg-brand-secondary hover:text-brand-primary transition-all shadow-lg shadow-brand-primary/10"
+            className="flex items-center justify-center gap-2 bg-brand-primary text-brand-secondary px-6 py-3 rounded-full font-bold text-sm hover:bg-brand-secondary hover:text-brand-primary transition-all shadow-lg shadow-brand-primary/10 w-full md:w-auto"
           >
             <Plus size={18} />
             New Request
@@ -474,7 +509,10 @@ const Dashboard = () => {
           </div>
         ) : activeTab === 'billing' ? (
           <div className="space-y-8">
-            <ReceiptUpload onUploadSuccess={() => window.location.reload()} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <ClientInvoiceUpload />
+              <ReceiptUpload onUploadSuccess={() => window.location.reload()} />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <InvoiceList />
               <StatusTracker />

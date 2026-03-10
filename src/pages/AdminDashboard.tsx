@@ -17,10 +17,14 @@ import {
   BarChart3,
   Mail,
   MessageSquare,
-  User
+  User,
+  Menu,
+  X,
+  CreditCard
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { format } from 'date-fns';
+import AdminInvoiceManager from '../components/AdminInvoiceManager';
 
 interface Request {
   id: string;
@@ -71,7 +75,8 @@ const AdminDashboard = () => {
   const [newStatus, setNewStatus] = useState('');
   const [deliveryUrl, setDeliveryUrl] = useState('');
   const [updating, setUpdating] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'messages' | 'users'>('overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'overview' | 'messages' | 'users' | 'invoices'>('overview');
 
   useEffect(() => {
     fetchData();
@@ -135,17 +140,35 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleTabClick = (tab: any) => {
+    setActiveTab(tab);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-black/5 flex flex-col hidden md:flex">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-black/5 flex-col transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0 flex' : '-translate-x-full md:flex'}`}>
         <div className="p-6 border-b border-black/5 flex items-center justify-between">
           <Logo />
-          <span className="px-2 py-1 bg-brand-primary text-brand-secondary text-[8px] font-black uppercase tracking-tighter rounded-md">Admin</span>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-1 bg-brand-primary text-brand-secondary text-[8px] font-black uppercase tracking-tighter rounded-md">Admin</span>
+            <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 text-black/40 hover:text-black">
+              <X size={20} />
+            </button>
+          </div>
         </div>
         <nav className="flex-1 p-4 space-y-2">
           <button 
-            onClick={() => setActiveTab('overview')}
+            onClick={() => handleTabClick('overview')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${
               activeTab === 'overview' 
                 ? 'bg-brand-primary text-brand-secondary' 
@@ -156,7 +179,7 @@ const AdminDashboard = () => {
             Requests
           </button>
           <button 
-            onClick={() => setActiveTab('messages')}
+            onClick={() => handleTabClick('messages')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${
               activeTab === 'messages' 
                 ? 'bg-brand-primary text-brand-secondary' 
@@ -166,11 +189,22 @@ const AdminDashboard = () => {
             <MessageSquare size={18} />
             Inquiries
           </button>
+          <button 
+            onClick={() => handleTabClick('invoices')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${
+              activeTab === 'invoices' 
+                ? 'bg-brand-primary text-brand-secondary' 
+                : 'text-black/40 hover:bg-brand-primary hover:text-brand-secondary'
+            }`}
+          >
+            <CreditCard size={18} />
+            Invoices
+          </button>
           <div className="pt-4 pb-2 px-4">
             <p className="text-[10px] font-bold uppercase tracking-widest text-black/20">System</p>
           </div>
           <button 
-            onClick={() => setActiveTab('users')}
+            onClick={() => handleTabClick('users')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${
               activeTab === 'users' 
                 ? 'bg-brand-primary text-brand-secondary' 
@@ -196,18 +230,26 @@ const AdminDashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto">
-        <header className="flex items-center justify-between mb-12">
-          <h1 className="text-3xl font-bold tracking-tight">
-            {activeTab === 'overview' ? 'Manage Requests' : activeTab === 'messages' ? 'Contact Inquiries' : 'User Management'}
-          </h1>
+      <main className="flex-1 p-6 md:p-8 overflow-y-auto w-full overflow-x-hidden">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div className="flex items-center gap-4">
-            <div className="relative">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 bg-white rounded-xl border border-black/5 text-black/60 hover:text-black"
+            >
+              <Menu size={24} />
+            </button>
+            <h1 className="text-3xl font-bold tracking-tight">
+              {activeTab === 'overview' ? 'Manage Requests' : activeTab === 'messages' ? 'Contact Inquiries' : activeTab === 'invoices' ? 'Invoice Management' : 'User Management'}
+            </h1>
+          </div>
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative w-full md:w-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black/20" size={18} />
               <input 
                 type="text" 
                 placeholder="Search..." 
-                className="pl-10 pr-4 py-2 bg-white border border-black/5 rounded-full text-sm outline-none focus:border-black/20"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-black/5 rounded-full text-sm outline-none focus:border-black/20"
               />
             </div>
           </div>
@@ -369,6 +411,8 @@ const AdminDashboard = () => {
               </table>
             </div>
           </div>
+        ) : activeTab === 'invoices' ? (
+          <AdminInvoiceManager />
         ) : (
           /* Users Table */
           <div className="bg-white rounded-3xl border border-black/5 shadow-sm overflow-hidden">
