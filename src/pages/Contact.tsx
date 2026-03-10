@@ -41,19 +41,23 @@ const Contact = () => {
     setErrorMessage('');
 
     try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert([
-          {
-            first_name: formData.first_name,
-            last_name: formData.last_name,
-            email: formData.email,
-            message: formData.message,
-            status: 'unread'
-          }
-        ]);
+      const response = await fetch('https://formspree.io/f/myknegjv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        throw new Error('Failed to send message.');
+      }
 
       setStatus('success');
       setFormData({ first_name: '', last_name: '', email: '', message: '' });
