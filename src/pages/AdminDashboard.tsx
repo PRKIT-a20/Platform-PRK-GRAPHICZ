@@ -73,6 +73,7 @@ const AdminDashboard = () => {
   const [selectedContact, setSelectedContact] = useState<ContactSubmission | null>(null);
   const [selectedUser, setSelectedUser] = useState<UserRecord | null>(null);
   const [newStatus, setNewStatus] = useState('');
+  const [newReviewCount, setNewReviewCount] = useState(0);
   const [deliveryUrl, setDeliveryUrl] = useState('');
   const [updating, setUpdating] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -117,7 +118,11 @@ const AdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('requests')
-        .update({ status: newStatus, delivery_url: deliveryUrl })
+        .update({ 
+          status: newStatus, 
+          delivery_url: deliveryUrl,
+          review_count: newReviewCount
+        })
         .eq('id', selectedRequest.id);
 
       if (error) throw error;
@@ -345,6 +350,8 @@ const AdminDashboard = () => {
                               setSelectedRequest(request);
                               setNewStatus(request.status);
                               setDeliveryUrl(request.delivery_url || '');
+                              // @ts-ignore - we know review_count might exist even if not in the interface yet
+                              setNewReviewCount(request.review_count || 0);
                             }}
                             className="p-2 hover:bg-black/5 rounded-lg transition-colors"
                           >
@@ -493,10 +500,24 @@ const AdminDashboard = () => {
                   onChange={(e) => setNewStatus(e.target.value)}
                   className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl outline-none font-medium"
                 >
-                  <option value="pending">Pending</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="delivered">Delivered</option>
+                  <option value="pending">Pending (Oud)</option>
+                  <option value="in_progress">In Progress (Oud)</option>
+                  <option value="delivered">Delivered (Oud)</option>
+                  <option value="Submitted">Ontvangen (Nieuw)</option>
+                  <option value="In Design Process">Bezig (Nieuw)</option>
+                  <option value="Review">Review (Nieuw)</option>
+                  <option value="Delivered">Klaar (Nieuw)</option>
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Review Count</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={newReviewCount}
+                  onChange={(e) => setNewReviewCount(parseInt(e.target.value) || 0)}
+                  className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl outline-none font-medium"
+                />
               </div>
               <div>
                 <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Delivery URL (Optional)</label>

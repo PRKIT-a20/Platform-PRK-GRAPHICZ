@@ -96,7 +96,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
       )}
 
       <div>
-        <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">
+        <label className="block text-sm font-bold uppercase tracking-widest text-brand-primary/70 mb-2">
           Producttype
         </label>
         <select
@@ -104,20 +104,18 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           value={formData.productType}
           onChange={handleChange}
           required
-          className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium appearance-none"
+          className="w-full px-4 py-4 bg-brand-primary/5 border border-transparent rounded-2xl focus:border-brand-primary/30 focus:ring-4 focus:ring-brand-primary/10 focus:bg-white transition-all outline-none font-medium text-brand-accent"
         >
           <option value="" disabled>Selecteer een producttype</option>
-          <option value="Banner">Banner</option>
-          <option value="Social Post">Social Post</option>
-          <option value="Logo">Logo</option>
+          <option value="Social Media Post">Social Media Post</option>
           <option value="Flyer">Flyer</option>
-          <option value="Video Edit">Video Edit</option>
+          <option value="Business Kaart">Business Kaart</option>
           <option value="Anders">Anders</option>
         </select>
       </div>
 
       <div>
-        <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">
+        <label className="block text-sm font-bold uppercase tracking-widest text-brand-primary/70 mb-2">
           Brand Assets
         </label>
         <select
@@ -125,7 +123,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           value={formData.brandId}
           onChange={handleChange}
           disabled={isLoadingBrands}
-          className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium appearance-none disabled:opacity-50"
+          className="w-full px-4 py-4 bg-brand-primary/5 border border-transparent rounded-2xl focus:border-brand-primary/30 focus:ring-4 focus:ring-brand-primary/10 focus:bg-white transition-all outline-none font-medium text-brand-accent disabled:opacity-50"
         >
           <option value="" disabled>
             {isLoadingBrands ? 'Brands laden...' : 'Selecteer een brand (optioneel)'}
@@ -139,7 +137,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
       </div>
 
       <div>
-        <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">
+        <label className="block text-sm font-bold uppercase tracking-widest text-brand-primary/70 mb-2">
           Deadline
         </label>
         <input
@@ -148,7 +146,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           value={formData.deadline}
           onChange={handleChange}
           required
-          className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
+          className="w-full px-4 py-4 bg-brand-primary/5 border border-transparent rounded-2xl focus:border-brand-primary/30 focus:ring-4 focus:ring-brand-primary/10 focus:bg-white transition-all outline-none font-medium text-brand-accent"
         />
       </div>
 
@@ -157,7 +155,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 py-4 bg-black/5 text-black rounded-2xl font-bold hover:bg-black/10 transition-all"
+            className="flex-1 py-4 bg-brand-primary/5 text-brand-primary rounded-2xl font-bold hover:bg-brand-primary/10 transition-all"
           >
             Annuleren
           </button>

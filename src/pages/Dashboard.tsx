@@ -493,7 +493,10 @@ const Dashboard = () => {
                         Download
                       </a>
                     )}
-                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-black/5 text-black px-4 py-2 rounded-xl font-bold text-sm hover:bg-black/10 transition-all">
+                    <button 
+                      onClick={() => alert('Chat functionaliteit komt binnenkort!')}
+                      className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-black/5 text-black px-4 py-2 rounded-xl font-bold text-sm hover:bg-black/10 transition-all"
+                    >
                       <MessageSquare size={16} />
                       Chat
                     </button>
@@ -504,7 +507,10 @@ const Dashboard = () => {
                     >
                       <Trash2 size={20} />
                     </button>
-                    <button className="p-2 text-black/20 hover:text-black transition-colors">
+                    <button 
+                      onClick={() => alert('Details pagina komt binnenkort!')}
+                      className="p-2 text-black/20 hover:text-black transition-colors"
+                    >
                       <ChevronRight size={20} />
                     </button>
                   </div>
