@@ -96,7 +96,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
       )}
 
       <div>
-        <label className="block text-sm font-bold uppercase tracking-widest text-brand-primary/70 mb-2">
+        <label className="block text-sm font-bold uppercase tracking-widest text-[#006663]/70 mb-2">
           Producttype
         </label>
         <select
@@ -104,7 +104,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           value={formData.productType}
           onChange={handleChange}
           required
-          className="w-full px-4 py-4 bg-brand-primary/5 border border-transparent rounded-2xl focus:border-brand-primary/30 focus:ring-4 focus:ring-brand-primary/10 focus:bg-white transition-all outline-none font-medium text-brand-accent"
+          className="w-full px-4 py-4 bg-[#006663]/5 border border-transparent rounded-2xl focus:border-[#006663]/30 focus:ring-4 focus:ring-[#006663]/10 focus:bg-white transition-all outline-none font-medium text-[#333333]"
         >
           <option value="" disabled>Selecteer een producttype</option>
           <option value="Social Media Post">Social Media Post</option>
@@ -115,7 +115,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
       </div>
 
       <div>
-        <label className="block text-sm font-bold uppercase tracking-widest text-brand-primary/70 mb-2">
+        <label className="block text-sm font-bold uppercase tracking-widest text-[#006663]/70 mb-2">
           Brand Assets
         </label>
         <select
@@ -123,7 +123,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           value={formData.brandId}
           onChange={handleChange}
           disabled={isLoadingBrands}
-          className="w-full px-4 py-4 bg-brand-primary/5 border border-transparent rounded-2xl focus:border-brand-primary/30 focus:ring-4 focus:ring-brand-primary/10 focus:bg-white transition-all outline-none font-medium text-brand-accent disabled:opacity-50"
+          className="w-full px-4 py-4 bg-[#006663]/5 border border-transparent rounded-2xl focus:border-[#006663]/30 focus:ring-4 focus:ring-[#006663]/10 focus:bg-white transition-all outline-none font-medium text-[#333333] disabled:opacity-50"
         >
           <option value="" disabled>
             {isLoadingBrands ? 'Brands laden...' : 'Selecteer een brand (optioneel)'}
@@ -137,7 +137,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
       </div>
 
       <div>
-        <label className="block text-sm font-bold uppercase tracking-widest text-brand-primary/70 mb-2">
+        <label className="block text-sm font-bold uppercase tracking-widest text-[#006663]/70 mb-2">
           Deadline
         </label>
         <input
@@ -146,7 +146,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           value={formData.deadline}
           onChange={handleChange}
           required
-          className="w-full px-4 py-4 bg-brand-primary/5 border border-transparent rounded-2xl focus:border-brand-primary/30 focus:ring-4 focus:ring-brand-primary/10 focus:bg-white transition-all outline-none font-medium text-brand-accent"
+          className="w-full px-4 py-4 bg-[#006663]/5 border border-transparent rounded-2xl focus:border-[#006663]/30 focus:ring-4 focus:ring-[#006663]/10 focus:bg-white transition-all outline-none font-medium text-[#333333]"
         />
       </div>
 
@@ -155,7 +155,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 py-4 bg-brand-primary/5 text-brand-primary rounded-2xl font-bold hover:bg-brand-primary/10 transition-all"
+            className="flex-1 py-4 bg-[#006663]/5 text-[#006663] rounded-2xl font-bold hover:bg-[#006663]/10 transition-all"
           >
             Annuleren
           </button>
@@ -163,7 +163,7 @@ const SmartRequestForm: React.FC<SmartRequestFormProps> = ({ onSuccess, onCancel
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex-1 py-4 bg-brand-primary text-brand-secondary rounded-2xl font-bold hover:bg-brand-secondary hover:text-brand-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="flex-1 py-4 bg-[#006663] text-[#ffd833] rounded-2xl font-bold hover:bg-[#ffd833] hover:text-[#006663] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Aanvraag Indienen'}
         </button>
