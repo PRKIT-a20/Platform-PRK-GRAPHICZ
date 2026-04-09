@@ -39,7 +39,7 @@ import ProcessTracker from '../components/ProcessTracker';
 import SmartRequestForm from '../components/SmartRequestForm';
 
 interface Request {
-  id: number;
+  id: string;
   project_nr?: string;
   title: string;
   description: string;
@@ -62,7 +62,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'planner' | 'billing' | 'projects' | 'vault' | 'proofing' | 'strategy' | 'wiki' | 'roadmap' | 'settings'>('overview');
   
   // Custom modal states
-  const [requestToDelete, setRequestToDelete] = useState<number | null>(null);
+  const [requestToDelete, setRequestToDelete] = useState<string | null>(null);
   const [infoMessage, setInfoMessage] = useState<{title: string, message: string} | null>(null);
 
   useEffect(() => {
@@ -254,7 +254,7 @@ const Dashboard = () => {
           <div className="pt-4 pb-2 px-4">
             <p className="text-[10px] font-bold uppercase tracking-widest text-black/20">Account</p>
           </div>
-          {user?.role === 'admin' && (
+          {(user?.role === 'admin' || user?.email === 'prkgraphicz@gmail.com') && (
             <Link 
               to="/admin"
               className="w-full flex items-center gap-3 px-4 py-2.5 text-black/40 hover:bg-brand-primary hover:text-brand-secondary rounded-xl font-bold text-sm transition-all"
@@ -427,16 +427,16 @@ const Dashboard = () => {
                     className="bg-white p-6 rounded-3xl border border-black/5 flex items-center justify-between hover:shadow-xl hover:shadow-black/5 transition-all"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${getStatusColor(request.status).split(' ')[0]}`}>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${getStatusColor(request.status || 'pending').split(' ')[0]}`}>
                         <FileText size={20} />
                       </div>
                       <div>
                         <h3 className="font-bold">{request.title}</h3>
-                        <p className="text-xs text-black/40 font-medium">{format(new Date(request.created_at), 'MMM d, yyyy')}</p>
+                        <p className="text-xs text-black/40 font-medium">{request.created_at ? format(new Date(request.created_at), 'MMM d, yyyy') : 'Unknown Date'}</p>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(request.status)}`}>
-                      {request.status.replace('_', ' ')}
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(request.status || 'pending')}`}>
+                      {(request.status || 'pending').replace('_', ' ')}
                     </span>
                   </motion.div>
                 ))}
@@ -475,15 +475,15 @@ const Dashboard = () => {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-xl font-bold">{request.title}</h3>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(request.status)}`}>
-                        {request.status.replace('_', ' ')}
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(request.status || 'pending')}`}>
+                        {(request.status || 'pending').replace('_', ' ')}
                       </span>
                     </div>
                     <p className="text-black/50 text-sm line-clamp-1 mb-2">{request.description}</p>
                     <div className="flex items-center gap-4 text-xs font-medium text-black/30">
                       <span className="flex items-center gap-1">
                         <Clock size={12} />
-                        {format(new Date(request.created_at), 'MMM d, yyyy')}
+                        {request.created_at ? format(new Date(request.created_at), 'MMM d, yyyy') : 'Unknown Date'}
                       </span>
                     </div>
                   </div>

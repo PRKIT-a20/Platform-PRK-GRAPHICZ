@@ -360,7 +360,7 @@ const AdminDashboard = () => {
                   <tbody className="divide-y divide-black/5">
                     {requests.map((request) => {
                       const client = users.find(u => u.id === request.user_id);
-                      const clientName = client?.full_name || client?.email || `User #${request.user_id.substring(0, 8)}`;
+                      const clientName = client?.full_name || client?.email || `User #${request.user_id?.substring(0, 8) || 'Unknown'}`;
                       
                       return (
                         <tr key={request.id} className="hover:bg-black/[0.01] transition-colors">
@@ -378,9 +378,9 @@ const AdminDashboard = () => {
                           </td>
                           <td className="px-6 py-4">
                             <select
-                              value={request.status}
+                              value={request.status || 'pending'}
                               onChange={(e) => handleInlineStatusUpdate(request.id, e.target.value)}
-                              className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer border appearance-none text-center transition-all hover:opacity-80 ${getStatusColor(request.status)}`}
+                              className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer border text-center transition-all hover:opacity-80 ${getStatusColor(request.status || 'pending')}`}
                             >
                               <option value="Submitted">Ontvangen</option>
                               <option value="In Design Process">Bezig</option>
@@ -398,7 +398,7 @@ const AdminDashboard = () => {
                             />
                           </td>
                           <td className="px-6 py-4 text-xs text-black/40 font-medium">
-                            {format(new Date(request.created_at), 'MMM d, yyyy')}
+                            {request.created_at ? format(new Date(request.created_at), 'MMM d, yyyy') : 'Unknown Date'}
                           </td>
                           <td className="px-6 py-4 text-right">
                             <button 
