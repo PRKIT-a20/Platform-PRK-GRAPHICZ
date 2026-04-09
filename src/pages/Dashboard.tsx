@@ -35,15 +35,18 @@ import ClientUploadedInvoicesList from '../components/ClientUploadedInvoicesList
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
 
+import ProcessTracker from '../components/ProcessTracker';
 import SmartRequestForm from '../components/SmartRequestForm';
 
 interface Request {
   id: number;
+  project_nr?: string;
   title: string;
   description: string;
-  status: 'pending' | 'in_progress' | 'delivered' | 'Submitted';
+  status: 'pending' | 'in_progress' | 'delivered' | 'Submitted' | 'In Design Process' | 'Review' | 'Delivered';
   created_at: string;
   delivery_url?: string;
+  review_count?: number;
 }
 
 const Dashboard = () => {
@@ -518,6 +521,10 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 gap-8">
               <InvoiceList />
             </div>
+          </div>
+        ) : activeTab === 'roadmap' ? (
+          <div className="space-y-8">
+            <ProcessTracker userId={user?.id} />
           </div>
         ) : activeTab === 'settings' ? (
           <div className="max-w-2xl space-y-8">
