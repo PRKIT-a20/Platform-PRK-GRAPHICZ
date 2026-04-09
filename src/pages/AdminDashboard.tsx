@@ -31,9 +31,12 @@ interface Request {
   user_id: string;
   title: string;
   description: string;
-  status: 'pending' | 'in_progress' | 'delivered';
+  status: 'pending' | 'in_progress' | 'delivered' | 'Submitted' | 'In Design Process' | 'Review' | 'Delivered';
   created_at: string;
   delivery_url?: string;
+  project_nr?: string;
+  review_count?: number;
+  product_type?: string;
 }
 
 interface ContactSubmission {
@@ -136,12 +139,46 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleInlineStatusUpdate = async (id: string, newStatus: string) => {
+    // Optimistic update
+    setRequests(requests.map(req => req.id === id ? { ...req, status: newStatus as any } : req));
+    try {
+      const { error } = await supabase
+        .from('requests')
+        .update({ status: newStatus })
+        .eq('id', id);
+      if (error) throw error;
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      fetchData(); // Revert on error
+    }
+  };
+
+  const handleInlineReviewUpdate = async (id: string, newCount: number) => {
+    // Optimistic update
+    setRequests(requests.map(req => req.id === id ? { ...req, review_count: newCount } : req));
+    try {
+      const { error } = await supabase
+        .from('requests')
+        .update({ review_count: newCount })
+        .eq('id', id);
+      if (error) throw error;
+    } catch (error) {
+      console.error('Failed to update review count:', error);
+      fetchData(); // Revert on error
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-700';
-      case 'in_progress': return 'bg-blue-100 text-blue-700';
-      case 'delivered': return 'bg-green-100 text-green-700';
-      default: return 'bg-gray-100 text-gray-700';
+      case 'In Design Process': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      case 'Review': return 'bg-purple-100 text-purple-700 border-purple-200';
+      case 'Delivered': return 'bg-green-100 text-green-700 border-green-200';
+      case 'Submitted': return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'pending': return 'bg-gray-100 text-gray-700 border-gray-200';
+      case 'in_progress': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      case 'delivered': return 'bg-green-100 text-green-700 border-green-200';
+      default: return 'bg-gray-100 text-gray-700 border-gray-200';
     }
   };
 
@@ -312,54 +349,74 @@ const AdminDashboard = () => {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="bg-black/[0.02] text-[10px] font-bold uppercase tracking-widest text-black/40">
-                      <th className="px-6 py-4">Client</th>
-                      <th className="px-6 py-4">Request</th>
+                      <th className="px-6 py-4">Project & Client</th>
+                      <th className="px-6 py-4">Request Details</th>
                       <th className="px-6 py-4">Status</th>
+                      <th className="px-6 py-4">Reviews</th>
                       <th className="px-6 py-4">Date</th>
-                      <th className="px-6 py-4 text-right">Action</th>
+                      <th className="px-6 py-4 text-right">Links</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-black/5">
-                    {requests.map((request) => (
-                      <tr key={request.id} className="hover:bg-black/[0.01] transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center font-bold text-xs">
-                              {request.user_id.substring(0, 2)}
+                    {requests.map((request) => {
+                      const client = users.find(u => u.id === request.user_id);
+                      const clientName = client?.full_name || client?.email || `User #${request.user_id.substring(0, 8)}`;
+                      
+                      return (
+                        <tr key={request.id} className="hover:bg-black/[0.01] transition-colors">
+                          <td className="px-6 py-4">
+                            <div className="flex flex-col">
+                              <span className="text-sm font-bold text-brand-primary">{request.project_nr || `REQ-${request.id.substring(0,4)}`}</span>
+                              <span className="text-xs text-black/60 font-medium">{clientName}</span>
                             </div>
-                            <span className="text-sm font-medium">User #{request.user_id.substring(0, 8)}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="max-w-xs">
-                            <p className="text-sm font-bold truncate">{request.title}</p>
-                            <p className="text-xs text-black/40 truncate">{request.description}</p>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${getStatusColor(request.status)}`}>
-                            {request.status.replace('_', ' ')}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-xs text-black/40 font-medium">
-                          {format(new Date(request.created_at), 'MMM d, yyyy')}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <button 
-                            onClick={() => {
-                              setSelectedRequest(request);
-                              setNewStatus(request.status);
-                              setDeliveryUrl(request.delivery_url || '');
-                              // @ts-ignore - we know review_count might exist even if not in the interface yet
-                              setNewReviewCount(request.review_count || 0);
-                            }}
-                            className="p-2 hover:bg-black/5 rounded-lg transition-colors"
-                          >
-                            <ExternalLink size={18} className="text-black/40" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="max-w-xs">
+                              <p className="text-sm font-bold truncate">{request.title || request.product_type}</p>
+                              <p className="text-xs text-black/40 truncate">{request.description}</p>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <select
+                              value={request.status}
+                              onChange={(e) => handleInlineStatusUpdate(request.id, e.target.value)}
+                              className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer border appearance-none text-center transition-all hover:opacity-80 ${getStatusColor(request.status)}`}
+                            >
+                              <option value="Submitted">Ontvangen</option>
+                              <option value="In Design Process">Bezig</option>
+                              <option value="Review">Review</option>
+                              <option value="Delivered">Klaar</option>
+                            </select>
+                          </td>
+                          <td className="px-6 py-4">
+                            <input
+                              type="number"
+                              min="0"
+                              value={request.review_count || 0}
+                              onChange={(e) => handleInlineReviewUpdate(request.id, parseInt(e.target.value) || 0)}
+                              className="w-16 px-3 py-1.5 bg-black/5 border border-transparent rounded-lg text-sm font-bold outline-none focus:border-brand-primary focus:bg-white transition-all text-center"
+                            />
+                          </td>
+                          <td className="px-6 py-4 text-xs text-black/40 font-medium">
+                            {format(new Date(request.created_at), 'MMM d, yyyy')}
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <button 
+                              onClick={() => {
+                                setSelectedRequest(request);
+                                setNewStatus(request.status);
+                                setDeliveryUrl(request.delivery_url || '');
+                                setNewReviewCount(request.review_count || 0);
+                              }}
+                              className="p-2 hover:bg-black/5 rounded-lg transition-colors"
+                              title="Open Details"
+                            >
+                              <ExternalLink size={18} className="text-black/40" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
