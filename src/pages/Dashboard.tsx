@@ -35,11 +35,13 @@ import ClientUploadedInvoicesList from '../components/ClientUploadedInvoicesList
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
 
+import SmartRequestForm from '../components/SmartRequestForm';
+
 interface Request {
   id: number;
   title: string;
   description: string;
-  status: 'pending' | 'in_progress' | 'delivered';
+  status: 'pending' | 'in_progress' | 'delivered' | 'Submitted';
   created_at: string;
   delivery_url?: string;
 }
@@ -583,47 +585,15 @@ const Dashboard = () => {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative w-full max-w-lg bg-white p-10 rounded-3xl shadow-2xl"
             >
-              <h2 className="text-2xl font-bold mb-6">New Design Request</h2>
-              <form onSubmit={handleCreateRequest} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Request Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium"
-                    placeholder="e.g. New Logo Design"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold uppercase tracking-widest text-black/40 mb-2">Description</label>
-                  <textarea
-                    required
-                    rows={4}
-                    value={newDescription}
-                    onChange={(e) => setNewDescription(e.target.value)}
-                    className="w-full px-4 py-4 bg-black/5 border border-transparent rounded-2xl focus:border-black/10 focus:bg-white transition-all outline-none font-medium resize-none"
-                    placeholder="Describe your vision, requirements, and any specific details..."
-                  />
-                </div>
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setShowNewRequest(false)}
-                    className="flex-1 py-4 bg-black/5 text-black rounded-2xl font-bold hover:bg-black/10 transition-all"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="flex-1 py-4 bg-brand-primary text-brand-secondary rounded-2xl font-bold hover:bg-brand-secondary hover:text-brand-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-                  >
-                    {submitting ? <Loader2 className="animate-spin" /> : 'Create Request'}
-                  </button>
-                </div>
-              </form>
+              <h2 className="text-2xl font-bold mb-6">Nieuwe Design Aanvraag</h2>
+              <SmartRequestForm 
+                userId={user?.id} 
+                onSuccess={() => {
+                  setShowNewRequest(false);
+                  fetchRequests();
+                }}
+                onCancel={() => setShowNewRequest(false)}
+              />
             </motion.div>
           </div>
         )}
