@@ -60,6 +60,10 @@ const Dashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [invoiceRefresh, setInvoiceRefresh] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'planner' | 'billing' | 'projects' | 'vault' | 'proofing' | 'strategy' | 'wiki' | 'roadmap' | 'settings'>('overview');
+  
+  // Custom modal states
+  const [requestToDelete, setRequestToDelete] = useState<number | null>(null);
+  const [infoMessage, setInfoMessage] = useState<{title: string, message: string} | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -113,22 +117,24 @@ const Dashboard = () => {
     }
   };
 
-  const handleDeleteRequest = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this request?')) return;
+  const confirmDeleteRequest = async () => {
+    if (!requestToDelete) return;
     
     try {
       const { error } = await supabase
         .from('requests')
         .delete()
-        .eq('id', id);
+        .eq('id', requestToDelete);
 
       if (error) throw error;
       
       // Update local state to remove the deleted request
-      setRequests(requests.filter(req => req.id !== id));
+      setRequests(requests.filter(req => req.id !== requestToDelete));
     } catch (error) {
       console.error('Failed to delete request:', error);
-      alert('Failed to delete request. Please try again.');
+      setInfoMessage({ title: 'Error', message: 'Failed to delete request. Please try again.' });
+    } finally {
+      setRequestToDelete(null);
     }
   };
 
@@ -494,21 +500,21 @@ const Dashboard = () => {
                       </a>
                     )}
                     <button 
-                      onClick={() => alert('Chat functionaliteit komt binnenkort!')}
+                      onClick={() => setInfoMessage({ title: 'Coming Soon', message: 'Chat functionaliteit komt binnenkort!' })}
                       className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-black/5 text-black px-4 py-2 rounded-xl font-bold text-sm hover:bg-black/10 transition-all"
                     >
                       <MessageSquare size={16} />
                       Chat
                     </button>
                     <button 
-                      onClick={() => handleDeleteRequest(request.id)}
+                      onClick={() => setRequestToDelete(request.id)}
                       className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                       title="Delete request"
                     >
                       <Trash2 size={20} />
                     </button>
                     <button 
-                      onClick={() => alert('Details pagina komt binnenkort!')}
+                      onClick={() => setInfoMessage({ title: 'Coming Soon', message: 'Details pagina komt binnenkort!' })}
                       className="p-2 text-black/20 hover:text-black transition-colors"
                     >
                       <ChevronRight size={20} />
@@ -607,6 +613,77 @@ const Dashboard = () => {
                 }}
                 onCancel={() => setShowNewRequest(false)}
               />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {requestToDelete !== null && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setRequestToDelete(null)}
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl text-center"
+            >
+              <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trash2 size={32} />
+              </div>
+              <h2 className="text-2xl font-bold mb-2">Delete Request?</h2>
+              <p className="text-black/60 mb-8">Are you sure you want to delete this request? This action cannot be undone.</p>
+              <div className="flex gap-4">
+                <button 
+                  onClick={() => setRequestToDelete(null)}
+                  className="flex-1 py-4 bg-black/5 text-black rounded-2xl font-bold hover:bg-black/10 transition-all"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={confirmDeleteRequest}
+                  className="flex-1 py-4 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-600 transition-all"
+                >
+                  Delete
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Info Modal */}
+      <AnimatePresence>
+        {infoMessage !== null && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setInfoMessage(null)}
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-sm bg-white p-8 rounded-3xl shadow-2xl text-center"
+            >
+              <h2 className="text-xl font-bold mb-2">{infoMessage.title}</h2>
+              <p className="text-black/60 mb-8">{infoMessage.message}</p>
+              <button 
+                onClick={() => setInfoMessage(null)}
+                className="w-full py-4 bg-brand-primary text-brand-secondary rounded-2xl font-bold hover:bg-brand-secondary hover:text-brand-primary transition-all"
+              >
+                Got it
+              </button>
             </motion.div>
           </div>
         )}
